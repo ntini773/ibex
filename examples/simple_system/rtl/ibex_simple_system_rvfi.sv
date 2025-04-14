@@ -32,7 +32,30 @@
 
 module ibex_simple_system (
   input IO_CLK,
-  input IO_RST_N
+  input IO_RST_N,
+
+  // RVFI tracing ports
+  output logic [31:0] rvfi_insn_o,
+  output logic        rvfi_valid_o,
+  output logic [63:0] rvfi_order_o,
+  output logic        rvfi_trap_o,
+  output logic        rvfi_halt_o,
+  output logic        rvfi_intr_o,
+  output logic [1:0]  rvfi_mode_o,
+  output logic [1:0]  rvfi_ixl_o,
+  output logic [4:0]  rvfi_rs1_addr_o,
+  output logic [4:0]  rvfi_rs2_addr_o,
+  output logic [4:0]  rvfi_rd_addr_o,
+  output logic [31:0] rvfi_rs1_rdata_o,
+  output logic [31:0] rvfi_rs2_rdata_o,
+  output logic [31:0] rvfi_rd_wdata_o,
+  output logic [31:0] rvfi_pc_rdata_o,
+  output logic [31:0] rvfi_pc_wdata_o,
+  output logic [31:0] rvfi_mem_addr_o,
+  output logic [3:0]  rvfi_mem_rmask_o,
+  output logic [3:0]  rvfi_mem_wmask_o,
+  output logic [31:0] rvfi_mem_rdata_o,
+  output logic [31:0] rvfi_mem_wdata_o
 );
 
   parameter bit                 SecureIbex               = 1'b0;
@@ -207,7 +230,8 @@ module ibex_simple_system (
       .DmBaseAddr      ( 32'h00100000     ),
       .DmAddrMask      ( 32'h00000003     ),
       .DmHaltAddr      ( 32'h00100000     ),
-      .DmExceptionAddr ( 32'h00100000     )
+      .DmExceptionAddr ( 32'h00100000     ),
+      .RVFI             (1'b1) 
     ) u_top (
       .clk_i                  (clk_sys),
       .rst_ni                 (rst_sys_n),
@@ -259,7 +283,31 @@ module ibex_simple_system (
       .alert_minor_o          (),
       .alert_major_internal_o (),
       .alert_major_bus_o      (),
-      .core_sleep_o           ()
+      .core_sleep_o           (),
+
+
+    // RVFI connections
+    .rvfi_valid_o       (rvfi_valid_o),
+    .rvfi_order_o       (rvfi_order_o),
+    .rvfi_insn_o        (rvfi_insn_o),
+    .rvfi_trap_o        (rvfi_trap_o),
+    .rvfi_halt_o        (rvfi_halt_o),
+    .rvfi_intr_o        (rvfi_intr_o),
+    .rvfi_mode_o        (rvfi_mode_o),
+    .rvfi_ixl_o         (rvfi_ixl_o),
+    .rvfi_rs1_addr_o    (rvfi_rs1_addr_o),
+    .rvfi_rs2_addr_o    (rvfi_rs2_addr_o),
+    .rvfi_rd_addr_o     (rvfi_rd_addr_o),
+    .rvfi_rs1_rdata_o   (rvfi_rs1_rdata_o),
+    .rvfi_rs2_rdata_o   (rvfi_rs2_rdata_o),
+    .rvfi_rd_wdata_o    (rvfi_rd_wdata_o),
+    .rvfi_pc_rdata_o    (rvfi_pc_rdata_o),
+    .rvfi_pc_wdata_o    (rvfi_pc_wdata_o),
+    .rvfi_mem_addr_o    (rvfi_mem_addr_o),
+    .rvfi_mem_rmask_o   (rvfi_mem_rmask_o),
+    .rvfi_mem_wmask_o   (rvfi_mem_wmask_o),
+    .rvfi_mem_rdata_o   (rvfi_mem_rdata_o),
+    .rvfi_mem_wdata_o   (rvfi_mem_wdata_o)
     );
 
   // SRAM block for instruction and data storage

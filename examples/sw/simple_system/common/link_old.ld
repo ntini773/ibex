@@ -19,7 +19,9 @@ _min_stack      = 0x2000;   /* 8K - minimum stack space to reserve */
 _stack_len     = LENGTH(stack);
 _stack_start   = ORIGIN(stack) + LENGTH(stack);
 
-_entry_point = _vectors_start + 0x80;
+/*_entry_point = _vectors_start + 0x80;*/
+_entry_point = 0x00100000;
+
 ENTRY(_entry_point)
 
 /* The tohost address is used by Spike for a magic "stop me now" message. This
@@ -34,6 +36,7 @@ fromhost = _stack_start + 0x10;
 
 SECTIONS
 {
+    
     .vectors :
     {
         . = ALIGN(4);

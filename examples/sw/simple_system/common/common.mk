@@ -8,7 +8,7 @@ COMMON_SRCS = $(wildcard $(COMMON_DIR)/*.c)
 INCS := -I$(COMMON_DIR)
 
 # ARCH = rv32im # to disable compressed instructions
-ARCH ?= rv32imc
+ARCH ?= rv32imac_zicsr_zifencei
 
 ifdef PROGRAM
 PROGRAM_C := $(PROGRAM).c
@@ -29,6 +29,9 @@ LINKER_SCRIPT ?= $(COMMON_DIR)/link.ld
 CRT ?= $(COMMON_DIR)/crt0.S
 CFLAGS ?= -march=$(ARCH) -mabi=ilp32 -static -mcmodel=medany -Wall -g -Os\
 	-fvisibility=hidden -nostdlib -nostartfiles -ffreestanding $(PROGRAM_CFLAGS)
+CFLAGS += -I/home/nitin/demonstration/ibex/examples/sw/simple_system/test_prog/uart
+
+
 
 OBJS := ${C_SRCS:.c=.o} ${ASM_SRCS:.S=.o} ${CRT:.S=.o}
 DEPS = $(OBJS:%.o=%.d)
