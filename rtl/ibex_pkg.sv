@@ -6,7 +6,7 @@
 /**
  * Package with constants used by Ibex
  */
-package ibex_pkg;
+package ibex_pkg; 
 
   ////////////////
   // IO Structs //
